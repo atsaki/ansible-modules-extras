@@ -70,8 +70,6 @@ options:
   hypervisor:
     description:
       - Name the hypervisor to be used for creating the new instance.
-      - Relevant when using C(state=present) and option C(ISO) is used.
-      - If not set, first found hypervisor will be used.
     required: false
     default: null
     choices: [ 'KVM', 'VMware', 'BareMetal', 'XenServer', 'LXC', 'HyperV', 'UCS', 'OVM' ]
@@ -511,7 +509,7 @@ class AnsibleCloudStackInstance(AnsibleCloudStack):
         args['projectid']           = self.get_project('id')
         args['diskofferingid']      = self.get_disk_offering_id()
         args['networkids']          = self.get_network_ids()
-        args['hypervisor']          = self.get_hypervisor()
+        args['hypervisor']          = self.module.params.get('hypervisor')
         args['userdata']            = self.get_user_data()
         args['keyboard']            = self.module.params.get('keyboard')
         args['ipaddress']           = self.module.params.get('ip_address')
